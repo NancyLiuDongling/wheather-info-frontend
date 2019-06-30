@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import API from '@/api/api';
 import envconfig from '@/envconfig/envconfig';
 import { saveFormData, saveImg, clearData} from '@/store/home/action';
-import {changeShow, clearSelected,changeSelectedCity ,getWheatherInfo} from '@/store/production/action';
+import {changeShow,changeSelectedCity ,getWheatherInfo} from '@/store/production/action';
 import PublicHeader from '@/components/header/header';
 import PublicAlert from '@/components/alert/alert';
 import TouchableOpacity from '@/components/TouchableOpacity/TouchableOpacity';
@@ -22,8 +22,7 @@ class Home extends Component {
     saveFormData: PropTypes.func.isRequired,
     saveImg: PropTypes.func.isRequired,
     clearData: PropTypes.func.isRequired,
-    clearSelected: PropTypes.func.isRequired,
-    changeSelectedCity: PropTypes.func.isRequired,
+     changeSelectedCity: PropTypes.func.isRequired,
     changeShow: PropTypes.func.isRequired,
     getWheatherInfo: PropTypes.func.isRequired,
   }
@@ -37,48 +36,21 @@ class Home extends Component {
   }
     handleChange = selectedOption => {
     this.setState({ selectedOption });
-    this.props.changeSelectedCity(selectedOption);
+    this.props.getWheatherInfo(selectedOption.value);
     this.props.changeShow(1);
-    this.props.getWheatherInfo(selectedOption)
+    this.props.changeSelectedCity(selectedOption);
   };
 
-  /**
-   * 已选择的商品数据
-   * @type {Array}
-   */
-  selectedProList = []; 
-
-  // 初始化数据，获取已选择的商品
-  initData = props => {
-    this.selectedProList = [];
-    props.proData.dataList.forEach(item => {
-      if(item.selectStatus && item.selectNum){
-        this.selectedProList.push(item);
-      }
-    })
   
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(!is(fromJS(this.props.proData), fromJS(nextProps.proData))){
-      this.initData(nextProps);
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return !is(fromJS(this.props), fromJS(nextProps)) || !is(fromJS(this.state),fromJS(nextState))
-  }
-
-  componentWillMount(){
-    this.initData(this.props);
-  }
+  
   
   render() {
     const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
+  { value: '111', label: '安顺' },
+  { value: '222', label: '常州' },
+  { value: '333', label: '南充' },
 ];
+  
     return (
       <main className="home-container">
         <p className="common-title">请选择要显示的天气城市</p>
@@ -86,8 +58,8 @@ class Home extends Component {
         value={this.state.selectedOption}
         onChange={this.handleChange}
         options={options}
-        />
-            {this.state.showOrnot == 1?  <Wheather/> : ''}
+        placeholder = "选择"/>
+            {this.props.proData.showWheatherItem == 1?  <Wheather/> : ''}
       </main>
 
     );
@@ -101,8 +73,7 @@ export default connect(state => ({
   saveFormData, 
   saveImg,
   clearData,
-  clearSelected,
-  changeSelectedCity,
+   changeSelectedCity,
   changeShow,
   getWheatherInfo
 })(Home);

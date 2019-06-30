@@ -89,15 +89,16 @@ class API extends Server{
    */
   async getWheatherInfo(params = {}){
     try{
-      let result = await this.axios('get', '192.168.1.188/weather/data', params); 
+      let result = await this.axios('get', 'weather/data?cityid='+ params); 
       if(result && (result.data instanceof Object) && result.http_code === 200){
+        console.log("api")
         return result.data.data||[];
       }else{
         let err = {
           tip: '获取天气属数据失败',
           response: result,
           data: params,
-          url: 'https://api.cangdu.org/shopro/data/products',
+          url: 'http://192.168.1.188/shopro/data/products',
         }
         throw err;
       }

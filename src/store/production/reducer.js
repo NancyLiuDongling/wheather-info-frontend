@@ -15,6 +15,7 @@ let defaultState = {
    * }]
    */
   dataList: [],
+  wheatherList: [],
   selectedCity: '',
   showWheatherItem: 0,
 }
@@ -23,26 +24,16 @@ export const proData = (state = defaultState, action) => {
   let imuDataList;
   let imuItem;
   switch(action.type){
-    case pro.GETPRODUCTION: 
-      return {...state, ...action}
+   
     case pro.GETWHEATHERINFO: 
-      return {...state, ...action}
-    case pro.TOGGLESELECT:
+  
       //避免引用类型数据，使用immutable进行数据转换 
-      imuDataList = Immutable.List(state.dataList);
-      imuItem = Immutable.Map(state.dataList[action.index]);
-      imuItem = imuItem.set('selectStatus', !imuItem.get('selectStatus'));
-      imuDataList = imuDataList.set(action.index, imuItem);
+      imuDataList = Immutable.List(state.wheatherList);
+      imuItem = Immutable.Map(state.wheatherList[action.index]);
+       imuDataList = imuDataList.set(action.index, imuItem);
       // redux必须返回一个新的state
-      return {...state, ...{dataList: imuDataList.toJS()}};
-    case pro.EDITPRODUCTION:
-      //避免引用类型数据，使用immutable进行数据转换 
-      imuDataList = Immutable.List(state.dataList);
-      imuItem = Immutable.Map(state.dataList[action.index]);
-      imuItem = imuItem.set('selectNum', action.selectNum);
-      imuDataList = imuDataList.set(action.index, imuItem);
-      // redux必须返回一个新的state
-      return {...state, ...{dataList: imuDataList.toJS()}};
+      return {...state, ...{wheatherList: imuDataList.toJS()}};
+    
     case pro.CHANGESELECTEDCITY:
       
       // redux必须返回一个新的state
@@ -52,16 +43,7 @@ export const proData = (state = defaultState, action) => {
       // redux必须返回一个新的state
       return {...state, ...{showWheatherItem: action.flag}};
     // 清空数据
-    case pro.CLEARSELECTED:
-      imuDataList = Immutable.fromJS(state.dataList);
-      for (let i = 0; i < state.dataList.length; i++) {
-        imuDataList = imuDataList.update(i, item => {
-          item = item.set('selectStatus', false);
-          item = item.set('selectNum', 0);
-          return item
-        })
-      }
-      return {...state, ...{dataList: imuDataList.toJS()}};
+    
     default: 
       return state;
   }

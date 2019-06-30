@@ -15,6 +15,8 @@ let defaultState = {
    * }]
    */
   dataList: [],
+  selectedCity: '',
+  showWheatherItem: 0,
 }
 
 export const proData = (state = defaultState, action) => {
@@ -22,6 +24,8 @@ export const proData = (state = defaultState, action) => {
   let imuItem;
   switch(action.type){
     case pro.GETPRODUCTION: 
+      return {...state, ...action}
+    case pro.GETWHEATHERINFO: 
       return {...state, ...action}
     case pro.TOGGLESELECT:
       //避免引用类型数据，使用immutable进行数据转换 
@@ -39,6 +43,14 @@ export const proData = (state = defaultState, action) => {
       imuDataList = imuDataList.set(action.index, imuItem);
       // redux必须返回一个新的state
       return {...state, ...{dataList: imuDataList.toJS()}};
+    case pro.CHANGESELECTEDCITY:
+      
+      // redux必须返回一个新的state
+      return {...state, ...{selectedCity: action.seclectedCity}};
+    case pro.CHANGESHOW:
+      
+      // redux必须返回一个新的state
+      return {...state, ...{showWheatherItem: action.flag}};
     // 清空数据
     case pro.CLEARSELECTED:
       imuDataList = Immutable.fromJS(state.dataList);

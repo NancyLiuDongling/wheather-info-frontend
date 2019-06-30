@@ -78,7 +78,35 @@ class API extends Server{
       throw err;
     }
   }
+   
 
+   /**
+   *  用途：获取城市天气信息
+   *  @url https://api.cangdu.org/shopro/data/products
+   *  返回http_code为200表示成功
+   *  @method get
+   *  @return {promise}
+   */
+  async getWheatherInfo(params = {}){
+    try{
+      let result = await this.axios('get', '192.168.1.188/weather/data', params); 
+      if(result && (result.data instanceof Object) && result.http_code === 200){
+        return result.data.data||[];
+      }else{
+        let err = {
+          tip: '获取天气属数据失败',
+          response: result,
+          data: params,
+          url: 'https://api.cangdu.org/shopro/data/products',
+        }
+        throw err;
+      }
+    }catch(err){
+      throw err;
+    }
+  }
+
+ 
   /**
    *  用途：获取佣金数据
    *  @url https://api.cangdu.org/shopro/data/balance

@@ -4,3 +4,5 @@ export const SAVEFORMDATA = 'SAVEFORMDATA';
 export const SAVEIMG = 'SAVEIMG';
 // 清空数据
 export const CLEARDATA = 'CLEARDATA';
+// 获取后台天气数据
+export const GETWHEATHERINFO = 'GETWHEATHERINFO';

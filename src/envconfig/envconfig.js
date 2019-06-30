@@ -4,9 +4,9 @@
 let baseURL; 
 let imgUrl = '//elm.cangdu.org/img/';
 if(process.env.NODE_ENV === 'development'){
-  baseURL = '//api.cangdu.org';
+  baseURL = '';
 }else{
-  baseURL = '//api.cangdu.org';
+  baseURL = '';
 }
 
 

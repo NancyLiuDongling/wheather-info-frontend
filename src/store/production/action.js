@@ -46,5 +46,37 @@ export const clearSelected = () => {
   }
 }
 
+export const changeSelectedCity = (seclectedCity) => {
+  return {
+    type: pro.CHANGESELECTEDCITY,
+    seclectedCity,
+  }
+}
+// 改变所选城市
+export const changeShow = (flag) => {
+  return {
+    type: pro.CHANGESHOW,
+    flag,
+  }
+}
+// 获取后台天气信息
 
-
+export const getWheatherInfo = () => {
+  // 返回函数，异步dispatch
+  return async dispatch => {
+    try{
+      let result = await API.getWheatherInfo();
+      result.map(item => {
+        item.selectStatus = true;
+        item.selectNum = 0;
+        return item;
+      })
+      dispatch({
+        type: pro.GETWHEATHERINFO,
+        dataList: result,
+      })
+    }catch(err){
+      console.error(err);
+    }
+  }
+}
